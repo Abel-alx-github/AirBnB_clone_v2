@@ -51,6 +51,7 @@ def deploy():
     """ deploy all in one command"""
     path_to_tar = do_pack()
 
-    if os.path.exists(path_to_tar) is False:
+    if path_to_tar is None:
         return (False)
-    return do_deploy(path_to_tar)
+    result = do_deploy(path_to_tar)
+    return result

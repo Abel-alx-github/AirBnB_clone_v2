@@ -8,8 +8,7 @@ env.hosts = ['18.233.67.128', '100.25.162.166']
 
 
 def do_pack():
-    """ Fabric script that generates a .tgz archive from the contents of the
-    ...web_static folder """
+    """ Fabric script that generates a archive """
     try:
         local("sudo mkdir -p versions")
         date = datetime.now().strftime("%Y%m%d%H%M%S")
@@ -26,7 +25,7 @@ def do_deploy(archive_path):
     distributes an archive to web servers
     """
     if not os.path.exists(archive_path):
-        return(False)
+        return False
     try:
         put(archive_path, '/tmp/')
         tar_filename = archive_path.split("/")[-1]
@@ -42,9 +41,9 @@ def do_deploy(archive_path):
         run('rm -rf /data/web_static/current')
         run('ln -s /data/web_static/releases/{} /data/web_static/current'
             .format(filename))
-        return(True)
+        return True
     except Exception as error:
-        return(False)
+        return False
 
 
 def deploy():
@@ -52,6 +51,6 @@ def deploy():
     path_to_tar = do_pack()
 
     if path_to_tar is None:
-        return (False)
+        return False
     result = do_deploy(path_to_tar)
     return result

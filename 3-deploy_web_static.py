@@ -52,4 +52,4 @@ def deploy():
 
     if not os.path.exists(path_to_tar):
         return (False)
-    do_deploy(path_to_tar)
+    return do_deploy(path_to_tar)

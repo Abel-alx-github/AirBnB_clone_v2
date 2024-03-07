@@ -38,7 +38,7 @@ def do_deploy(archive_path):
             /data/web_static/releases/{}/'.format(filename, filename))
         run('rm -rf /data/web_static/releases/{}/web_static'
             .format(filename))
-        run('rm -rf /data/web_static/current')
+        run('rm -rf /data/web_static/currnt')
         run('ln -s /data/web_static/releases/{} /data/web_static/current'
             .format(filename))
         return(True)
@@ -50,6 +50,6 @@ def deploy():
     """ deploy all in one command"""
     path_to_tar = do_pack()
 
-    if not os.path.exists(path_to_tar):
+    if os.path.exists(path_to_tar) is None:
         return (False)
     return do_deploy(path_to_tar)

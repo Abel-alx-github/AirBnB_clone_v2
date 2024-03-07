@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 """ module to defin fabric file"""
 from fabric.api import *
 from datetime import datetime

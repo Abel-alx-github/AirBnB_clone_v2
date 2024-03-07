@@ -16,7 +16,7 @@ echo "<html>
 [[ -L /data/web_static/current ]] && rm -rf /data/web_static/current
  
 mkdir -p /data/web_static/current/
-ln -sf /data/web_static/releases/test/index.html /data/web_static/current
+ln -sf /data/web_static/releases/test/ /data/web_static/current
 
 chown -R ubuntu:ubuntu /data
 chmod -R 755 /data

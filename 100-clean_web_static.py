@@ -17,7 +17,8 @@ def do_clean(number=0):
 
     if num == 0 or num == 1:
         num = 1
-
+    else:
+        num += 1
     local('cd versions ; ls -t | tail -n +{} | xargs rm -rf'.format(num))
     cmd = 'cd /data/web_static/releases'
     run('{}; ls -t | tail -n +{} | xargs rm -rf'.format(cmd, num))

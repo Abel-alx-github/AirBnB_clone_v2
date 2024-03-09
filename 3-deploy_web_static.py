@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """ module to defin fabric file"""
-from fabric.api import local, run, put, env
+from fabric.operations import local, run, put, env
 from datetime import datetime
 import os
 

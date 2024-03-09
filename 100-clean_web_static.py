@@ -3,10 +3,9 @@
 fabric script (based on the file 3-deploy_web_static.py) that
 deletes old archive with do_clean
 """
-from fabric.operations import *
+from fabric.api import *
 
 
-env.user = "ubuntu"
 env.hosts = ['18.233.67.128', '100.25.162.166']
 
 

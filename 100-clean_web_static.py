@@ -16,7 +16,7 @@ def do_clean(number=0):
     num = int(number)
 
     if num < 2:
-        num = 1
+        num = 2
     else:
        num += 1
 

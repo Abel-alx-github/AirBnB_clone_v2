@@ -15,10 +15,8 @@ def do_clean(number=0):
 
     num = int(number)
 
-    if num == 0:
-        num = 2
-    else:
-        num += 1
+    if num == 0 or num == 1:
+        num = 1
 
     local('cd versions ; ls -t | tail -n +{} | xargs rm -rf'.format(num))
     cmd = 'cd /data/web_static/releases'

@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """ module to defin fabric file"""
-from fabric.operations import local, run, put, env
+from fabric.api import local, run, put, env
 from datetime import datetime
 import os
 
@@ -33,7 +33,7 @@ def do_deploy(archive_path):
         run('sudo mkdir -p /data/web_static/releases/{}'.format(filename))
         run('sudo tar -xzf /tmp/{} -C /data/web_static/releases/{}'.format
             (tar_filename, filename))
-        run('sudo rm /tmp/{}'.format(tar_filename))
+        run('sudo rm -rf /tmp/{}'.format(tar_filename))
         run('sudo mv /data/web_static/releases/{}/web_static/* \
             /data/web_static/releases/{}/'.format(filename, filename))
         run('sudo rm -rf /data/web_static/releases/{}/web_static'

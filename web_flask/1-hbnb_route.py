@@ -12,7 +12,7 @@ def fromRoot():
 
 @myapp.route('/hbnb', strict_slashes=False)
 def from_root_hbnb():
-    return f'hbnb'
+    return f'HBNB'
 
 
 if __name__ == '__main__':

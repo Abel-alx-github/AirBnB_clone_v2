@@ -55,6 +55,7 @@ class DBStorage:
 
     def reload(self):
         ''' reload the data from db'''
+
         Base.metadata.create_all(self.__engine)
         session_factory = sessionmaker(bind=self.__engine,
                                        expire_on_commit=False)

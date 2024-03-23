@@ -6,13 +6,13 @@ from sqlalchemy import Column, String, MetaData, Table
 from sqlalchemy.orm import relationship
 from models import storage
 
+
 class State(BaseModel, Base):
     """ State class """
     __tablename__ = 'states'
     name = Column(String(128), nullable=False)
     cities = relationship("City", cascade='all, delete, delete-orphan',
                           backref="state")
-
 
     @property
     def cities(self):

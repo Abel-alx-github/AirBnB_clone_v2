@@ -5,9 +5,6 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine, MetaData, Table
 from sqlalchemy.orm import sessionmaker, scoped_session
 import os
-#from models.state import State
-#from models.city import City
-#from models.user import User
 
 
 class DBStorage:

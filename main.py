@@ -2,7 +2,7 @@
 #from datetime import datetime
 from models import storage
 from models.state import State
-#from models.city import City
+from models.city import City
 
 """
  Objects creations
@@ -14,7 +14,7 @@ state_2 = State(name="Arizona")
 print("New state: {}".format(state_2))
 state_2.save()
 
-"""city_1_1 = City(state_id=state_1.id, name="Napa")
+city_1_1 = City(state_id=state_1.id, name="Napa")
 print("New city: {} in the state: {}".format(city_1_1, state_1))
 city_1_1.save()
 city_1_2 = City(state_id=state_1.id, name="Sonoma")
@@ -23,13 +23,15 @@ city_1_2.save()
 city_2_1 = City(state_id=state_2.id, name="Page")
 print("New city: {} in the state: {}".format(city_2_1, state_2))
 city_2_1.save()
-"""
+	
 
 """
  Verification
 """
-print("")
+print("lets found\n")
+
 all_states = storage.all(State)
+#print(all_states)
 for state_id, state in all_states.items():
 	for city in state.cities:
 		print("Find the city {} in the state {}".format(city, state))

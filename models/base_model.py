@@ -18,39 +18,54 @@ class BaseModel:
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
 
     def __init__(self, *args, **kwargs):
-        """Instatntiates a new model"""
+        """Instantiates a new model"""
         if not kwargs:
-            from models import storage
             self.id = str(uuid.uuid4())
             self.created_at = datetime.utcnow()
             self.updated_at = datetime.utcnow()
-            storage.new(self)
         else:
-            kwargs['updated_at'] = datetime(kwargs['updated_at'],
-                                                     '%Y-%m-%dT%H:%M:%S.%f')
-            kwargs['created_at'] = datetime.strptime(kwargs['created_at'],
-                                                     '%Y-%m-%dT%H:%M:%S.%f')
-
-            del kwargs['__class__']
-            self.__dict__.update(kwargs)
+            for key, value in kwargs.items():
+                if key != '__class__':
+                    if key in ('created_at', 'updated_at'):
+                        setattr(self, key, datetime.fromisoformat(value))
+                    else:
+                        setattr(self, key, value)
+            # if os.getenv('HBNB_TYPE_STORAGE') in ('db'):
+            if not hasattr(kwargs, 'id'):
+                setattr(self, 'id', str(uuid.uuid4()))
+            if not hasattr(kwargs, 'created_at'):
+                setattr(self, 'created_at', datetime.utcnow())
+            if not hasattr(kwargs, 'updated_at'):
+                setattr(self, 'updated_at', datetime.utcnow())
 
     def __str__(self):
         """Returns a string representation of the instance"""
         cls = (str(type(self)).split('.')[-1]).split('\'')[0]
-        return '[{}] ({}) {}'.format(cls, self.id, self.__dict__)
+        dic = self.__dict__
+        return '[{}] ({}) {}'.format(cls, self.id, dic)
 
     def save(self):
         """Updates updated_at with current time when instance is changed"""
         from models import storage
         self.updated_at = datetime.now()
+        del self.__dict__['_sa_instance_state']
+        storage.new(self)
         storage.save()
+
+    def delete(self):
+        """delete this instance """
+        from models import storage
+        storage.delete(self)
 
     def to_dict(self):
         """Convert instance into dict format"""
-        dictionary = {}
-        dictionary.update(self.__dict__)
-        dictionary.update({'__class__':
-                          (str(type(self)).split('.')[-1]).split('\'')[0]})
-        dictionary['created_at'] = self.created_at.isoformat()
-        dictionary['updated_at'] = self.updated_at.isoformat()
-        return dictionary
+
+        res = {}
+        for key, value in self.__dict__.items():
+            if key != '_sa_instance_state':
+                if isinstance(value, datetime):
+                    res[key] = value.isoformat()
+                else:
+                    res[key] = value
+        res['__class__'] = self.__class__.__name__
+        return res

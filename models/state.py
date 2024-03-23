@@ -1,9 +1,10 @@
 #!/usr/bin/python3
 """ State Module for HBNB project """
+import shlex
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, MetaData, Table
 from sqlalchemy.orm import relationship
-
+from models import storage
 
 class State(BaseModel, Base):
     """ State class """
@@ -12,9 +13,10 @@ class State(BaseModel, Base):
     cities = relationship("City", cascade='all, delete, delete-orphan',
                           backref="state")
 
+
     @property
     def cities(self):
-        var = models.storage.all()
+        var = storage.all()
         lista = []
         result = []
         for key in var:

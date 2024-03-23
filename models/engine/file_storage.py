@@ -2,6 +2,7 @@
 """This module defines a class to manage file storage for hbnb clone"""
 import json
 import shlex
+from importlib import import_module
 
 
 class FileStorage:
@@ -13,16 +14,14 @@ class FileStorage:
         """Returns a dictionary of models currently in storage"""
 
         if cls:
-            obj = FileStorage.__objects
-            look = {}
-            for k in obj:
-                key = k.replace('.', ' ')
-                key = key.split()[0]
-                if cls.__name__ == key:
-                    look[k] = self.__objects[k]
-            return (look)
+            obj_of_cls = {}
+            for key, value in self.__objects.items():
+                if type(value) is cls:
+                    obj_of_cls[key] = value
+
+            return obj_of_cls
         else:
-            return FileStorage.__objects
+            return self.__objects
 
     def delete(self, obj=None):
         ''' delete objct'''
@@ -33,15 +32,16 @@ class FileStorage:
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
-        self.all().update({obj.to_dict()['__class__'] + '.' + obj.id: obj})
+        key = f"{obj.to_dict()['__class__']}.{obj.id}"
+        self.__objects.update({key: obj})
 
     def save(self):
         """Saves storage dictionary to file"""
         with open(FileStorage.__file_path, 'w') as f:
             temp = {}
-            temp.update(FileStorage.__objects)
-            for key, val in temp.items():
+            for key, val in self.__objects.items():
                 temp[key] = val.to_dict()
+
             json.dump(temp, f)
 
     def reload(self):
@@ -64,7 +64,9 @@ class FileStorage:
             with open(FileStorage.__file_path, 'r') as f:
                 temp = json.load(f)
                 for key, val in temp.items():
-                    self.all()[key] = classes[val['__class__']](**val)
+                    cls_name = val['__class__']
+                    cls = classes[cls_name]
+                    self.all()[key] = cls(**val)
         except FileNotFoundError:
             pass
 

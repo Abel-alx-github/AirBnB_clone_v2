@@ -28,7 +28,6 @@ city_2_1.save()
 """
  Verification
 """
-print("lets found\n")
 
 all_states = storage.all(State)
 #print(all_states)

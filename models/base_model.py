@@ -37,20 +37,18 @@ class BaseModel:
                 setattr(self, 'created_at', datetime.utcnow())
             if not hasattr(kwargs, 'updated_at'):
                 setattr(self, 'updated_at', datetime.utcnow())
-            if hasattr(self.__dict__, '_sa_instance_state'):
-                self.__dict__.pop('_sa_instance_state', None)
 
     def __str__(self):
         """Returns a string representation of the instance"""
         cls = (str(type(self)).split('.')[-1]).split('\'')[0]
         dic = self.__dict__
-        return '[{}] ({}) {}'.format(cls, self.id, dic)
+
+        return '[{}] ({}) {}'.format(cls, self.id, self.to_dict())
 
     def save(self):
         """Updates updated_at with current time when instance is changed"""
         from models import storage
         self.updated_at = datetime.now()
-        del self.__dict__['_sa_instance_state']
         storage.new(self)
         storage.save()
 

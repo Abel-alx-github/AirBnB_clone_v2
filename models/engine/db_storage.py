@@ -9,6 +9,7 @@ from models.state import State
 from models.city import City
 from models.user import User
 
+
 class DBStorage:
     ''' class DBStorage'''
     __engine = None
@@ -21,7 +22,8 @@ class DBStorage:
         host = os.environ.get('HBNB_MYSQL_HOST')
         db = os.environ.get('HBNB_MYSQL_DB')
         env = os.environ.get('HBNB_ENV')
-        self.__engine = create_engine(f"mysql+mysqldb://{user}:{passwd}@{host}:3306/{db}", pool_pre_ping=True)
+        string = f"mysql+mysqldb://{user}:{passwd}@{host}:3306/{db}"
+        self.__engine = create_engine(string, pool_pre_ping=True)
 
         if env == 'test':
             Base.metadata.drop_all(self.__engine)
@@ -35,7 +37,7 @@ class DBStorage:
             classes = [User, State, City, Amenity, Place, Review]
             for cls in classes:
                 objects.update({obj.id: obj for obj in
-                        self.__session.query(cls).all()})
+                               self.__session.query(cls).all()})
         return objects
 
     def new(self, obj):
@@ -55,7 +57,7 @@ class DBStorage:
         ''' reload the data from db'''
         Base.metadata.create_all(self.__engine)
         session_factory = sessionmaker(bind=self.__engine,
-                  expire_on_commit=False)
+                                       expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session()
 

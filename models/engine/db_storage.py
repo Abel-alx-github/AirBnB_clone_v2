@@ -6,6 +6,13 @@ from sqlalchemy import create_engine, MetaData, Table
 from sqlalchemy.orm import sessionmaker, scoped_session
 import os
 
+from models.state import State
+from models.city import City
+from models.user import User
+from models.amenity import Amenity
+from models.review import Review
+from models.place import Place
+
 
 class DBStorage:
     ''' class DBStorage'''
@@ -31,13 +38,6 @@ class DBStorage:
         if cls:
             objects = self.__session.query(cls).all()
         else:
-            from models.state import State
-            from models.city import City
-            from models.user import User
-            from models.amenity import Amenity
-            from models.review import Review
-            from models.place import Place
-
             classes = [User, State, City, Amenity, Place, Review]
             for cls in classes:
                 objects.update({obj.id: obj for obj in

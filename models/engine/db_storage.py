@@ -12,8 +12,9 @@ from models.user import User
 from models.amenity import Amenity
 from models.review import Review
 from models.place import Place
-classes = {"State": State, "City": City, "User": User,
-           "Place": Place, "Review": Review, "Amenity": Amenity}
+classes = {"State": State, "City": City}
+i_use_this_next = {"User": User,
+                   "Place": Place, "Review": Review, "Amenity": Amenity}
 
 
 class DBStorage:
